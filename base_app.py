@@ -70,6 +70,29 @@ def main():
 		st.subheader("Summary of Statistics")
 		st.info("Summary statistics")
 		st.bar_chart(raw["sentiment"])
+        
+    #if selection == "Statistics":
+     #   st.title("Statistics")
+     #   st.subheader("Summary of Statistics")
+     #   st.info("Summary statistics")
+
+    # Display Pie Chart
+    st.subheader("Sentiment Distribution (Pie Chart)")
+
+    # Create a pie chart
+    sentiment_counts = raw["sentiment"].value_counts()
+    fig, ax = plt.subplots()
+    ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%', startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Display the pie chart using st.pyplot
+    st.pyplot(fig)
+        
+     
+   
+    
+
+            
 		# Build it here add more stuff
 	
 	# Building out the predication page
