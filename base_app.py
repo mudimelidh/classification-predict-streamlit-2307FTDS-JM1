@@ -128,7 +128,6 @@ def main():
 
 		# Create a DataFrame or use your existing 'raw' DataFrame
 		sentiment_counts = raw["sentiment"].value_counts()
-
 		# Adjust the size and background transparency of the pie chart
 		fig, ax = plt.subplots()  # Set the size as needed
 		categories = ["Pro","News","Neutral","Anti"]
@@ -200,7 +199,7 @@ def main():
 			elif prediction == 0:
 				prediction = "**Neutral**: the tweet neither supports nor refutes the belief of man-made climate change"
 			else:
-				prediction = "**Anti**: the tweet does not believe in man-made climate change Variable definitions"
+				prediction = "**Anti**: the tweet does not believe in man-made climate change"
 
 			# When model has successfully run, will print prediction
 			st.success("The tweet is Categorized as: {}".format(prediction))
