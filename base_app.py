@@ -128,7 +128,6 @@ def main():
 
 		# Create a DataFrame or use your existing 'raw' DataFrame
 		sentiment_counts = raw["sentiment"].value_counts()
-		left, right = st.columns(2)
 		# Adjust the size and background transparency of the pie chart
 		fig, ax = plt.subplots()  # Set the size as needed
 		categories = ["Pro","News","Neutral","Anti"]
@@ -144,8 +143,8 @@ def main():
 		plt.close()
 
 		# Display the pie chart using st.image
-		left.image(image_stream)
-		right.markdown("Description")
+		st.image(image_stream)
+
         # Display Word Clouds
 		st.subheader("Word Clouds for Each Sentiment Class")
 		# Add interactive selection buttons for word clouds
@@ -170,7 +169,7 @@ def main():
 			    tracking trends, or researching climate discourse, our Tweet Classifier is here to assist.
 			"""
 			)
-		models = ["Logistic Regressor", "Random Forest", "Support Vector Classifier"]
+		models = ["Support Vector Classifier", "Logistic Regressor", "Random Forest", "Decision Tree"]
 		model_selected = st.selectbox("Select Prediction Model", models)
 		# Creating a text box for user input
 		tweet_text = st.text_area("Enter Text","Type Here")
@@ -181,30 +180,29 @@ def main():
 			X = tweet_vc.transform([tweet_text]).toarray()
 
 			if model_selected == "Logistic Regressor":
-				predictor = joblib.load(open(os.path.join("resources/logistic_regression_model.pkl"),"rb"))
+				predictor = joblib.load(open(os.path.join("resources/lr_model.pkl"),"rb"))
 				prediction = predictor.predict(X)
 			elif model_selected == "Random Forest":
-				predictor = joblib.load(open(os.path.join("resources/random_forest_model.pkl"),"rb"))
+				predictor = joblib.load(open(os.path.join("resources/rf_model.pkl"),"rb"))
+				prediction = predictor.predict(X)
+			elif model_selected == "Support Vector Classifier":
+				predictor = joblib.load(open(os.path.join("resources/svc_model.pkl"),"rb"))
 				prediction = predictor.predict(X)
 			else:
-				predictor = joblib.load(open(os.path.join("resources/support_vector_classifier_model.pkl"),"rb"))
+				predictor = joblib.load(open(os.path.join("resources/decision_tree_model.pkl"),"rb"))
 				prediction = predictor.predict(X)
 
 			if prediction == 2:
-				prediction = "News: the tweet links to factual news about climate change"
+				prediction = "**News**: the tweet links to factual news about climate change"
 			elif prediction == 1:
-				prediction = "Pro: the tweet supports the belief of man-made climate change"
+				prediction = "**Pro**: the tweet supports the belief of man-made climate change"
 			elif prediction == 0:
-				prediction = "Neutral: the tweet neither supports nor refutes the belief of man-made climate change"
+				prediction = "**Neutral**: the tweet neither supports nor refutes the belief of man-made climate change"
 			else:
-				prediction = "*Anti*: the tweet does not believe in man-made climate change Variable definitions"
-
-
+				prediction = "**Anti**: the tweet does not believe in man-made climate change"
 
 			# When model has successfully run, will print prediction
-			# You can use a dictionary or similar structure to make this output
-			# more human interpretable.
-			st.success("Text Categorized as: {}".format(prediction))
+			st.success("The tweet is Categorized as: {}".format(prediction))
 	
 	if selection == "Meet the Team":
 		header("Meet our Team", "")
@@ -225,8 +223,8 @@ def main():
 		
 		one, two = st.columns(2)
 
-		# Sharonrose Project administrator
-		image_path = "resources/imgs/sharonrose.png"
+		# Percy Project manager
+		image_path = "resources/imgs/percy.png"
 		one.markdown(
         f"""
         <div style="display: flex; justify-content: center;">
@@ -235,15 +233,15 @@ def main():
         """,
         unsafe_allow_html=True
     	)
-		one.markdown('<div style="text-align: center;"><strong>🌟 Sharonrose Khokhololo: Project Admin & Data Scientist</strong></div>', unsafe_allow_html=True)
-		one.info("Greetings! I'm Sharonrose Khokhololo, I ensure smooth coordination, clear communication, and efficient project execution to contribute to the success of our mission.")
+		one.markdown('<div style="text-align: center;"><strong>🌟 Percy Mmutle: Project Manager & Data Scientist</strong></div>', unsafe_allow_html=True)
+		one.info("Greetings! I'm Percy Mmutle, Skilled in orchestrating machine learning projects, ensuring seamless collaboration, and achieving project milestones.")
 		
 		# Ntombenhle Researcher
 		image_path = "resources/imgs/Ntombenhle.png"
 		two.markdown(
         f"""
         <div style="display: flex; justify-content: center;">
-            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Nyeleti Image" style="width: 150px; max-width: 100%;">
+            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Ntomenhle Image" style="width: 150px; max-width: 100%;">
         </div>
         """,
         unsafe_allow_html=True
@@ -257,31 +255,31 @@ def main():
 		one, two, three = st.columns(3)
 
 		# Nyeleti group scrum secretary
-		image_path = "resources/imgs/Ntombenhle.png"
+		image_path = "resources/imgs/nyeleti.png"
 		one.markdown(
         f"""
         <div style="display: flex; justify-content: center;">
-            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Ntombenhle Image" style="width: 150px; max-width: 100%;">
+            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Nyeleti Image" style="width: 150px; max-width: 100%;">
         </div>
         """,
         unsafe_allow_html=True
     	)
-		one.markdown('<div style="text-align: center;"><strong>🤖 Nyeleti Chauke: Secretary & Data Scientist</strong></div>', unsafe_allow_html=True)
-		one.info("Greetings! I'm Dakalo Mudimeli, an accomplished Aeronautical Engineering graduate who found a passion for harnessing data to navigate the complex challenges of our world. As the Team Leader and a Data Scientist on our innovative project, I lead a talented group of data scientists in a mission to classify tweets and predict individuals\' beliefs in man-made global warming.")
+		one.markdown('<div style="text-align: center;"><strong>🤖 Nyeleti Chauke: Administrator & Data Scientist</strong></div>', unsafe_allow_html=True)
+		one.info("Greetings! I'm Nyeleti Chauke, Administrator for DataNova. I am responsible for making sure that everyone is aware of their duties and responsibilities, and to ensure that tasks are executed. ")
 
-		# EMPTY
-		image_path = "resources/imgs/profile.png"
+		# Sharonrose Project administrator
+		image_path = "resources/imgs/sharonrose.png"
 		two.markdown(
         f"""
         <div style="display: flex; justify-content: center;">
-            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Sharonrose Image" style="width: 150px; max-width: 100%;">
+            <img src="data:image/png;base64,{base64.b64encode(open(image_path, 'rb').read()).decode()}" alt="Sharon Image" style="width: 150px; max-width: 100%;">
         </div>
         """,
         unsafe_allow_html=True
     	)
-		two.markdown('<div style="text-align: center;"><strong>🚀 Ntombenhle Nkosi: Researcher & Data Scientist</strong></div>', unsafe_allow_html=True)
-		two.info("Greetings! I'm Dakalo Mudimeli, an accomplished Aeronautical Engineering graduate who found a passion for harnessing data to navigate the complex challenges of our world. As the Team Leader and a Data Scientist on our innovative project, I lead a talented group of data scientists in a mission to classify tweets and predict individuals\' beliefs in man-made global warming.")
-
+		two.markdown('<div style="text-align: center;"><strong>🌟 Sharonrose Khokhololo: Project Admin & Data Scientist</strong></div>', unsafe_allow_html=True)
+		two.info("Greetings! I'm Sharonrose Khokhololo, I ensure smooth coordination, clear communication, and efficient project execution to contribute to the success of our mission.")
+		
 		# Khaya GitHub reviewer
 		image_path = "resources/imgs/profile.png"
 		three.markdown(
@@ -293,7 +291,7 @@ def main():
         unsafe_allow_html=True
     	)
 		three.markdown('<div style="text-align: center;"><strong>🚀 Khaya Bresendale-Fynn: GitHub Reviewer & Data Scientist</strong></div>', unsafe_allow_html=True)
-		three.info("Greetings! I'm Dakalo Mudimeli, an accomplished Aeronautical Engineering graduate who found a passion for harnessing data to navigate the complex challenges of our world. As the Team Leader and a Data Scientist on our innovative project, I lead a talented group of data scientists in a mission to classify tweets and predict individuals\' beliefs in man-made global warming.")
+		three.info("Greetings! I'm Khaya Bresendale-Fynn, I am the Github reviewer for the project.")
 
 
 # Required to let Streamlit instantiate our web app.  
